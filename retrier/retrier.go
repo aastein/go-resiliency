@@ -12,14 +12,14 @@ type Retrier struct {
 	backoff []time.Duration
 	class   Classifier
 	jitter  float64
-	rand    *rand.Rand
+	Rand    *rand.Rand
 }
 
 // New constructs a Retrier with the given backoff pattern and classifier. The length of the backoff pattern
 // indicates how many times an action will be retried, and the value at each index indicates the amount of time
 // waited before each subsequent retry. The classifier is used to determine which errors should be retried and
 // which should cause the retrier to fail fast. The DefaultClassifier is used if nil is passed.
-func New(backoff []time.Duration, class Classifier) *Retrier {
+func New(backoff []time.Duration, class Classifier, r *rand.Rand) *Retrier {
 	if class == nil {
 		class = DefaultClassifier{}
 	}
@@ -27,7 +27,7 @@ func New(backoff []time.Duration, class Classifier) *Retrier {
 	return &Retrier{
 		backoff: backoff,
 		class:   class,
-		rand:    rand.New(rand.NewSource(time.Now().UnixNano())),
+		Rand:    r,
 	}
 }
 
