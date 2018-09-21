@@ -56,7 +56,7 @@ func (r *Retrier) Run(work func() error) error {
 
 func (r *Retrier) calcSleep(i int) time.Duration {
 	// take a random float in the range (-r.jitter, +r.jitter) and multiply it by the base amount
-	return r.backoff[i] + time.Duration(((r.rand.Float64()*2)-1)*r.jitter*float64(r.backoff[i]))
+	return r.backoff[i] + time.Duration(((r.Rand.Float64()*2)-1)*r.jitter*float64(r.backoff[i]))
 }
 
 // SetJitter sets the amount of jitter on each back-off to a factor between 0.0 and 1.0 (values outside this range
